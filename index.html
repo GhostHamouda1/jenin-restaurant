@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مطعم جنين | طلب الطعام وحجز الطاولات</title>
+    
+    <!-- Content Security Policy (CSP) لحماية الموقع من ثغرات الحقن -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com https://images.unsplash.com data:; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;">
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f0f11;
+            --bg-card: #18181c;
+            --gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --gold-dark: #aa820a;
+            --white: #ffffff;
+            --light-gray: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --glass-bg: rgba(24, 24, 28, 0.85);
+            --glass-border: rgba(212, 175, 55, 0.25);
+            --font-main: 'Tajawal', 'Cairo', sans-serif;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { background-color: var(--bg-dark); color: var(--white); font-family: var(--font-main); overflow-x: hidden; line-height: 1.6; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
+
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+        .section-padding { padding: 80px 0; }
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .section-subtitle { color: var(--gold); font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+        .section-title { font-family: 'Cairo', sans-serif; font-size: 2.3rem; font-weight: 800; color: var(--white); margin-top: 5px; }
+
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 24px; border-radius: 50px; font-size: 0.95rem; font-weight: 700; text-decoration: none; transition: var(--transition); cursor: pointer; border: none; }
+        .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: #000; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); }
+        .btn-outline { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); }
+        .btn-outline:hover { background: var(--gold); color: #000; }
+        .btn-danger { background: #e74c3c; color: #fff; }
+        .btn-sm { padding: 6px 14px; font-size: 0.85rem; }
+
+        .glass-card { background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: 16px; }
+
+        /* Navbar */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 15px 0; background: rgba(15, 15, 17, 0.95); border-bottom: 1px solid var(--glass-border); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: 'Cairo', sans-serif; font-size: 1.6rem; font-weight: 900; color: var(--white); cursor: pointer; user-select: none; }
+        .logo span { color: var(--gold); }
+        .nav-links { display: flex; gap: 20px; list-style: none; }
+        .nav-link { color: var(--light-gray); text-decoration: none; font-weight: 500; transition: var(--transition); }
+        .nav-link:hover { color: var(--gold); }
+
+        .cart-trigger { position: relative; background: var(--gold); color: #000; padding: 8px 18px; border-radius: 30px; cursor: pointer; font-weight: bold; border: none; }
+        .cart-badge { background: #e74c3c; color: white; border-radius: 50%; padding: 2px 7px; font-size: 0.75rem; position: absolute; top: -5px; right: -5px; }
+
+        /* Hero */
+        .hero { height: 65vh; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(rgba(15,15,17,0.7), rgba(15,15,17,0.98)), url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1920&q=80') center/cover; margin-top: 60px; }
+        .hero-title { font-family: 'Cairo'; font-size: 3.2rem; font-weight: 900; }
+
+        /* Menu */
+        .menu-filters { display: flex; justify-content: center; gap: 10px; margin-bottom: 35px; flex-wrap: wrap; }
+        .filter-btn { background: var(--bg-card); color: var(--light-gray); border: 1px solid var(--glass-border); padding: 8px 20px; border-radius: 20px; cursor: pointer; font-family: var(--font-main); transition: var(--transition); }
+        .filter-btn.active, .filter-btn:hover { background: var(--gold); color: #000; font-weight: bold; }
+
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+        .food-card { overflow: hidden; display: flex; flex-direction: column; transition: var(--transition); position: relative; }
+        .food-card:hover { transform: translateY(-5px); border-color: var(--gold); }
+        .food-img-box { height: 180px; position: relative; }
+        .food-img { width: 100%; height: 100%; object-fit: cover; }
+        .food-content { padding: 16px; display: flex; flex-direction: column; flex-grow: 1; }
+
+        .admin-delete-btn { position: absolute; top: 10px; left: 10px; background: #e74c3c; color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: none; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 10; }
+
+        /* Modals */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .modal-card { background: var(--bg-card); border: 1px solid var(--gold); width: 100%; max-width: 650px; border-radius: 16px; max-height: 90vh; overflow-y: auto; padding: 25px; position: relative; }
+        .modal-close { position: absolute; top: 15px; left: 15px; color: var(--text-muted); cursor: pointer; font-size: 1.4rem; }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.85rem; margin-bottom: 5px; color: var(--gold-light); }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; background: #000; border: 1px solid var(--glass-border); border-radius: 8px; color: #fff; font-family: var(--font-main); outline: none; }
+
+        /* Cart Text Row */
+        .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px dashed var(--glass-border); background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 8px; }
+
+        @media(max-width:768px) {
+            .nav-links { display: none; }
+            .hero-title { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <!-- الضغط 3 مرات سريعة يفتح لوحة الأدمن الخفية -->
+            <div class="logo" id="logoAdminBtn" onclick="handleLogoClick()">
+                <i class="fa-solid fa-utensils"></i> مطعم <span>جنين</span>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link">الرئيسية</a></li>
+                <li><a href="#menu" class="nav-link">المنيو</a></li>
+                <li><a href="#reservation" class="nav-link">حجز طاولة</a></li>
+            </ul>
+
+            <button class="cart-trigger" onclick="openCartModal()">
+                <i class="fa-solid fa-basket-shopping"></i> السلة
+                <span class="cart-badge" id="cartCount">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1 class="hero-title">مطعم جنين - النصيرات</h1>
+            <p style="color: var(--light-gray); margin-bottom: 25px;">أشهى المأكولات الشرقية والمشاوي والمشروبات الطازجة</p>
+            <a href="#menu" class="btn btn-gold"><i class="fa-solid fa-utensils"></i> استعراض المنيو والطلب</a>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="section-padding" id="menu">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">قائمة الطعام والمشروبات</span>
+                <h2 class="section-title">اختر وجبتك أو مشروبك المفضل</h2>
+            </div>
+
+            <div class="menu-filters">
+                <button class="filter-btn active" onclick="filterMenu('all', this)">الكل</button>
+                <button class="filter-btn" onclick="filterMenu('meals', this)">الوجبات والأطباق 🍖</button>
+                <button class="filter-btn" onclick="filterMenu('cold-drinks', this)">مشروبات باردة 🍹</button>
+                <button class="filter-btn" onclick="filterMenu('hot-drinks', this)">مشروبات ساخنة ☕</button>
+            </div>
+
+            <div class="menu-grid" id="menuGrid"></div>
+        </div>
+    </section>
+
+    <!-- Table Reservation Section -->
+    <section class="section-padding" id="reservation" style="background: rgba(24,24,28,0.5);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">حجز طاولة أونلاين</span>
+                <h2 class="section-title">احجز طاولتك العائلية الآن</h2>
+            </div>
+            <div class="glass-card" style="max-width: 600px; margin: 0 auto; padding: 25px;">
+                <form id="tableForm" onsubmit="event.preventDefault();">
+                    <div class="form-group">
+                        <label>الاسم الكامل:</label>
+                        <input type="text" id="tableName" placeholder="أدخل اسمك الكريم" required maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label>رقم الهاتف للاتصال:</label>
+                        <input type="tel" id="tablePhone" placeholder="059xxxxxxx" required maxlength="15">
+                    </div>
+                    <div class="form-group">
+                        <label>عدد الأشخاص:</label>
+                        <select id="tableGuests">
+                            <option value="شخصين (2)">شخصين (2)</option>
+                            <option value="عائلة صغيرة (3-5)">عائلة صغيرة (3-5)</option>
+                            <option value="عائلة كبيرة (6 فأكثر)">عائلة كبيرة (6 فأكثر)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>الوقت والتاريخ:</label>
+                        <input type="datetime-local" id="tableTime" required>
+                    </div>
+                    <div style="display:flex; gap:10px; margin-top: 15px;">
+                        <button type="button" class="btn btn-gold" style="flex:1;" onclick="sendTableReservation('whatsapp')"><i class="fa-brands fa-whatsapp"></i> حجز عبر الواتساب</button>
+                        <button type="button" class="btn btn-outline" style="flex:1;" onclick="sendTableReservation('sms')"><i class="fa-solid fa-comment-sms"></i> حجز عبر SMS</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="padding: 30px 0; border-top: 1px solid var(--glass-border); text-align: center;">
+        <div class="container">
+            <p style="color:var(--gold); font-weight:bold;">مطعم جنين - النصيرات، الدوار العام، غزة</p>
+            <p style="color:var(--text-muted); font-size:0.9rem; margin-top:5px;">هاتف / واتساب: +970 595 864 888</p>
+            <p style="color:var(--text-muted); font-size:0.8rem; margin-top:15px;">&copy; 2026 جميع الحقوق محفوظة لمطعم جنين.</p>
+        </div>
+    </footer>
+
+    <!-- CART MODAL (قائمة نصية مخصصة للزبون بدون صور) -->
+    <div class="modal-overlay" id="cartModal">
+        <div class="modal-card">
+            <i class="fa-solid fa-xmark modal-close" onclick="closeCartModal()"></i>
+            <h3 style="color:var(--gold); font-family:'Cairo'; margin-bottom:15px;"><i class="fa-solid fa-receipt"></i> قائمة المأكولات والمشروبات المختارة</h3>
+            
+            <div id="cartItemsContainer"></div>
+
+            <div style="margin: 15px 0; border-top: 1px solid var(--glass-border); padding-top: 10px; display:flex; justify-content:space-between; font-weight:bold;">
+                <span>المجموع الإجمالي:</span>
+                <span style="color:var(--gold); font-size:1.2rem;" id="cartTotal">0 ₪</span>
+            </div>
+
+            <h4 style="margin: 15px 0 10px 0; color:var(--gold-light);">تعبئة بيانات الزبون للتوصيل:</h4>
+            <form id="orderForm" onsubmit="event.preventDefault();">
+                <div class="form-group"><label>الاسم الكامل:</label><input type="text" id="custName" placeholder="أدخل اسمك" required maxlength="50"></div>
+                <div class="form-group"><label>رقم الهاتف:</label><input type="tel" id="custPhone" placeholder="059xxxxxxx" required maxlength="15"></div>
+                <div class="form-group"><label>العنوان / مكان التواجد التفصيلي:</label><textarea id="custAddress" rows="2" placeholder="المنطقة، الشارع، ومعلم بارز..." required maxlength="200"></textarea></div>
+                <div class="form-group">
+                    <label>نوع الاستلام:</label>
+                    <select id="orderType">
+                        <option value="توصيل للمنزل 🛵">توصيل للمنزل 🛵</option>
+                        <option value="استلام سفري 🛍️">استلام سفري من المطعم 🛍️</option>
+                    </select>
+                </div>
+                
+                <div style="display:flex; gap:10px; margin-top:15px;">
+                    <button type="button" class="btn btn-gold" style="flex:1;" onclick="submitOrder('whatsapp')"><i class="fa-brands fa-whatsapp"></i> إرسال واتساب</button>
+                    <button type="button" class="btn btn-outline" style="flex:1;" onclick="submitOrder('sms')"><i class="fa-solid fa-comment-sms"></i> إرسال SMS</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SECRET ADMIN MODAL -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-card">
+            <i class="fa-solid fa-xmark modal-close" onclick="closeAdminModal()"></i>
+            
+            <div id="adminLogin">
+                <h3 style="color:var(--gold); font-family:'Cairo'; text-align:center; margin-bottom:20px;">دخول إدارة المطعم 🔑</h3>
+                <div class="form-group">
+                    <label>كلمة المرور:</label>
+                    <input type="password" id="adminPass" placeholder="كلمة المرور">
+                </div>
+                <button class="btn btn-gold" style="width:100%;" onclick="checkAdminPass()">دخول اللوحة</button>
+            </div>
+
+            <div id="adminPanel" style="display:none;">
+                <h3 style="color:var(--gold); font-family:'Cairo'; margin-bottom:15px;"><i class="fa-solid fa-sliders"></i> لوحة الإدارة والأصناف</h3>
+
+                <div class="glass-card" style="padding:15px; margin-bottom:20px;">
+                    <h4 style="color:var(--gold-light); margin-bottom:10px;">إضافة صنف جديد للمنيو:</h4>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                        <div class="form-group"><label>اسم الصنف:</label><input type="text" id="newItemName" placeholder="مثال: بيتزا ببروني" maxlength="50"></div>
+                        <div class="form-group"><label>السعر (₪):</label><input type="number" id="newItemPrice" placeholder="35" min="1" max="1000"></div>
+                        <div class="form-group">
+                            <label>القسم:</label>
+                            <select id="newItemCat">
+                                <option value="meals">وجبات رئيسية 🍖</option>
+                                <option value="cold-drinks">مشروبات باردة 🍹</option>
+                                <option value="hot-drinks">مشروبات ساخنة ☕</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>خيار حار / عادي؟</label>
+                            <select id="newItemSpice">
+                                <option value="no">لا</option>
+                                <option value="yes">نعم</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-image"></i> اختر صورة الصنف من الجهاز (MAX 2MB):</label>
+                        <input type="file" id="newItemFile" accept="image/png, image/jpeg, image/webp" style="padding: 5px;">
+                    </div>
+
+                    <button class="btn btn-gold btn-sm" onclick="addNewItem()"><i class="fa-solid fa-plus"></i> إضافة الصنف للرئيسية</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Engine & Security Logic -->
+    <script>
+        const RESTAURANT_PHONE = "970595864888";
+        let isAdminLoggedIn = false;
+
+        // XSS Sanitizer Function لتنظيف النص قبل عرضه لمنع الاختراق
+        function sanitizeHTML(str) {
+            const temp = document.createElement('div');
+            temp.textContent = str;
+            return temp.innerHTML;
+        }
+
+        let defaultMenu = [
+            { id: 1, name: "مشاوي مشكلة فاخرة", price: 75, cat: "meals", spice: true, img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80" },
+            { id: 2, name: "وجبة شاورما عربي", price: 45, cat: "meals", spice: true, img: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=600&q=80" },
+            { id: 3, name: "عصير برتقال طازج", price: 12, cat: "cold-drinks", spice: false, img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80" },
+            { id: 4, name: "مشروب غازي بارد", price: 5, cat: "cold-drinks", spice: false, img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80" },
+            { id: 5, name: "قهوة تركية فاخرة", price: 8, cat: "hot-drinks", spice: false, img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" },
+            { id: 6, name: "شاي بالنعناع الأخضر", price: 5, cat: "hot-drinks", spice: false, img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80" }
+        ];
+
+        let menu = JSON.parse(localStorage.getItem('jenin_menu')) || defaultMenu;
+        let cart = [];
+
+        function renderMenu() {
+            const container = document.getElementById('menuGrid');
+            let html = "";
+
+            menu.forEach(item => {
+                const safeName = sanitizeHTML(item.name);
+                html += `
+                <div class="food-card glass-card menu-item" data-category="${item.cat}">
+                    <button class="admin-delete-btn" style="display:${isAdminLoggedIn ? 'flex' : 'none'};" onclick="deleteMenuItemOnPage(${item.id})" title="حذف الصنف"><i class="fa-solid fa-trash"></i></button>
+                    <div class="food-img-box"><img src="${item.img}" class="food-img" alt="${safeName}"></div>
+                    <div class="food-content">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <h3 style="font-size:1.1rem; font-weight:bold;">${safeName}</h3>
+                            <span style="color:var(--gold); font-weight:bold;">${item.price} ₪</span>
+                        </div>
+                        ${item.spice ? `
+                        <div style="margin:10px 0; font-size:0.85rem;">
+                            <label>النكهة:</label>
+                            <select id="spice-${item.id}" style="background:#000; color:#fff; border:1px solid var(--glass-border); padding:3px; border-radius:5px;">
+                                <option value="عادي 🌿">عادي 🌿</option>
+                                <option value="حار 🌶️">حار 🌶️</option>
+                            </select>
+                        </div>` : ''}
+                        <button class="btn btn-gold btn-sm" style="margin-top:auto;" onclick="addToCart(${item.id})"><i class="fa-solid fa-cart-plus"></i> إضافة للسلة</button>
+                    </div>
+                </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function addToCart(itemId) {
+            const item = menu.find(i => i.id === itemId);
+            if (!item) return;
+
+            let selectedSpice = "";
+            if(item.spice) {
+                const select = document.getElementById(`spice-${itemId}`);
+                selectedSpice = select ? select.value : "";
+            }
+
+            cart.push({ ...item, selectedSpice });
+            updateCartUI();
+            openCartModal();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cartCount').textContent = cart.length;
+            const container = document.getElementById('cartItemsContainer');
+            const totalElem = document.getElementById('cartTotal');
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:15px;">لم تقم بإضافة أي أصناف بعد..</p>';
+                totalElem.textContent = "0 ₪";
+                return;
+            }
+
+            let html = "";
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                const safeName = sanitizeHTML(item.name);
+                html += `
+                <div class="cart-item-row">
+                    <div>
+                        <div style="font-weight:bold; font-size:1rem; color:var(--white);">📌 ${safeName}</div>
+                        ${item.selectedSpice ? `<div style="font-size:0.8rem; color:var(--gold); margin-top:2px;">• الملاحظة: ${sanitizeHTML(item.selectedSpice)}</div>` : ''}
+                    </div>
+                    <div style="display:flex; align-items:center; gap:15px;">
+                        <span style="color:var(--gold); font-weight:bold; font-size:1rem;">${item.price} ₪</span>
+                        <i class="fa-solid fa-trash-can" style="color:#e74c3c; cursor:pointer; font-size:1.1rem;" onclick="removeFromCart(${index})" title="إزالة"></i>
+                    </div>
+                </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            totalElem.textContent = total + " ₪";
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function submitOrder(method) {
+            const name = sanitizeHTML(document.getElementById('custName').value.trim());
+            const phone = sanitizeHTML(document.getElementById('custPhone').value.trim());
+            const address = sanitizeHTML(document.getElementById('custAddress').value.trim());
+            const orderType = sanitizeHTML(document.getElementById('orderType').value);
+
+            if (!name || !phone || !address || cart.length === 0) {
+                alert("يرجى ملء كافة البيانات المطلوبة وإضافة أصناف للسلة أولاً!");
+                return;
+            }
+
+            let total = cart.reduce((sum, item) => sum + item.price, 0);
+
+            let orderText = `*طلب جديد - مطعم جنين* 🛵%0A---------------------------------%0A👤 *الاسم:* ${encodeURIComponent(name)}%0A📞 *الهاتف:* ${encodeURIComponent(phone)}%0A📍 *العنوان:* ${encodeURIComponent(address)}%0A📦 *نوع الطلب:* ${encodeURIComponent(orderType)}%0A---------------------------------%0A📋 *الأصناف:*%0A`;
+            
+            cart.forEach((item, i) => {
+                orderText += `${i+1}. ${encodeURIComponent(item.name)} ${item.selectedSpice ? `(${encodeURIComponent(item.selectedSpice)})` : ''} - ${item.price}₪%0A`;
+            });
+
+            orderText += `---------------------------------%0A💰 *المجموع الإجمالي:* ${total} ₪`;
+
+            if (method === 'whatsapp') {
+                window.open(`https://wa.me/${RESTAURANT_PHONE}?text=${orderText}`, '_blank');
+            } else {
+                const plainText = decodeURIComponent(orderText).replace(/\*/g, '');
+                window.open(`sms:+${RESTAURANT_PHONE}?body=${encodeURIComponent(plainText)}`, '_blank');
+            }
+
+            cart = [];
+            updateCartUI();
+            closeCartModal();
+        }
+
+        function sendTableReservation(method) {
+            const name = sanitizeHTML(document.getElementById('tableName').value.trim());
+            const phone = sanitizeHTML(document.getElementById('tablePhone').value.trim());
+            const guests = sanitizeHTML(document.getElementById('tableGuests').value);
+            const time = sanitizeHTML(document.getElementById('tableTime').value);
+
+            if (!name || !phone || !time) {
+                alert("يرجى تعبئة كافة بيانات الحجز!");
+                return;
+            }
+
+            let resText = `*حجز طاولة جديد - مطعم جنين* 🍽️%0A---------------------------------%0A👤 *الاسم:* ${encodeURIComponent(name)}%0A📞 *الهاتف:* ${encodeURIComponent(phone)}%0A👥 *العدد:* ${encodeURIComponent(guests)}%0A⏰ *الموعد:* ${encodeURIComponent(time)}%0A`;
+
+            if (method === 'whatsapp') {
+                window.open(`https://wa.me/${RESTAURANT_PHONE}?text=${resText}`, '_blank');
+            } else {
+                const plainText = decodeURIComponent(resText).replace(/\*/g, '');
+                window.open(`sms:+${RESTAURANT_PHONE}?body=${encodeURIComponent(plainText)}`, '_blank');
+            }
+        }
+
+        /* 3 Clicks Secret Admin Panel */
+        let clickCount = 0;
+        let clickTimer;
+        function handleLogoClick() {
+            clickCount++;
+            clearTimeout(clickTimer);
+            if (clickCount >= 3) {
+                openAdminModal();
+                clickCount = 0;
+            } else {
+                clickTimer = setTimeout(() => { clickCount = 0; }, 1000);
+            }
+        }
+
+        function checkAdminPass() {
+            const pass = document.getElementById('adminPass').value;
+            // كلمة المرور المؤقتة 1234 للوحة الأدمن
+            if (pass === "1234") {
+                isAdminLoggedIn = true;
+                document.getElementById('adminLogin').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                renderMenu(); 
+            } else {
+                alert("كلمة المرور غير صحيحة!");
+            }
+        }
+
+        function deleteMenuItemOnPage(id) {
+            if (confirm("هل أنت تأكد من حذف هذا الصنف من المنيو؟")) {
+                menu = menu.filter(item => item.id !== id);
+                localStorage.setItem('jenin_menu', JSON.stringify(menu));
+                renderMenu();
+            }
+        }
+
+        /* Secure File Upload (Base64 Validator) */
+        function addNewItem() {
+            const name = sanitizeHTML(document.getElementById('newItemName').value.trim());
+            const price = parseFloat(document.getElementById('newItemPrice').value);
+            const cat = sanitizeHTML(document.getElementById('newItemCat').value);
+            const spice = document.getElementById('newItemSpice').value === 'yes';
+            const fileInput = document.getElementById('newItemFile');
+
+            if (!name || isNaN(price) || price <= 0) {
+                alert("يرجى كتابة اسم الصنف وسعره بشكل صحيح!");
+                return;
+            }
+
+            let defaultImg = 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80';
+
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+
+                // MIME Type Validation & Size Limit (2MB Max)
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+                if (!allowedTypes.includes(file.type)) {
+                    alert("نوع الملف غير مسموح! يرجى اختيار صورة بصيغة (JPG, PNG, WEBP) فقط.");
+                    return;
+                }
+                if (file.size > 2 * 1024 * 1024) {
+                    alert("حجم الصورة كبير جداً! يرجى اختيار صورة أقل من 2 ميجابايت.");
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    saveItemToMenu(name, price, cat, spice, e.target.result);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                saveItemToMenu(name, price, cat, spice, defaultImg);
+            }
+        }
+
+        function saveItemToMenu(name, price, cat, spice, imgUrl) {
+            const newItem = { id: Date.now(), name, price, cat, spice, img: imgUrl };
+            menu.push(newItem);
+            localStorage.setItem('jenin_menu', JSON.stringify(menu));
+            renderMenu();
+
+            alert("تمت إضافة الصنف بنجاح!");
+            document.getElementById('newItemName').value = '';
+            document.getElementById('newItemPrice').value = '';
+            document.getElementById('newItemFile').value = '';
+        }
+
+        function openCartModal() { document.getElementById('cartModal').style.display = 'flex'; }
+        function closeCartModal() { document.getElementById('cartModal').style.display = 'none'; }
+        function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
+        function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
+
+        function filterMenu(cat, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.menu-item').forEach(item => {
+                if(cat === 'all' || item.getAttribute('data-category') === cat) item.style.display = 'flex';
+                else item.style.display = 'none';
+            });
+        }
+
+        renderMenu();
+    </script>
+</body>
+</html>

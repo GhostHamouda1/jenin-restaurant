@@ -178,10 +178,19 @@
                             <option value="عائلة كبيرة (6 فأكثر)">عائلة كبيرة (6 فأكثر)</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>الوقت والتاريخ:</label>
-                        <input type="datetime-local" id="tableTime" required>
+                    
+                    <!-- تحسين خانة التاريخ والوقت بـ Grid أنيق -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div class="form-group">
+                            <label>التاريخ المفضل:</label>
+                            <input type="date" id="tableDate" required style="color-scheme: dark; direction: ltr; text-align: right;">
+                        </div>
+                        <div class="form-group">
+                            <label>الوقت المفضل:</label>
+                            <input type="time" id="tableTime" required style="color-scheme: dark; direction: ltr; text-align: right;">
+                        </div>
                     </div>
+
                     <div style="display:flex; gap:10px; margin-top: 15px;">
                         <button type="button" class="btn btn-gold" style="flex:1;" onclick="sendTableReservation('whatsapp')"><i class="fa-brands fa-whatsapp"></i> حجز عبر الواتساب</button>
                         <button type="button" class="btn btn-outline" style="flex:1;" onclick="sendTableReservation('sms')"><i class="fa-solid fa-comment-sms"></i> حجز عبر SMS</button>
@@ -200,7 +209,7 @@
         </div>
     </footer>
 
-    <!-- CART MODAL (قائمة نصية مخصصة للزبون بدون صور) -->
+    <!-- CART MODAL -->
     <div class="modal-overlay" id="cartModal">
         <div class="modal-card">
             <i class="fa-solid fa-xmark modal-close" onclick="closeCartModal()"></i>
@@ -284,12 +293,11 @@
         </div>
     </div>
 
-    <!-- JavaScript Engine & Security Logic -->
+    <!-- JavaScript Engine -->
     <script>
         const RESTAURANT_PHONE = "970595864888";
         let isAdminLoggedIn = false;
 
-        // XSS Sanitizer Function لتنظيف النص قبل عرضه لمنع الاختراق
         function sanitizeHTML(str) {
             const temp = document.createElement('div');
             temp.textContent = str;
@@ -432,14 +440,15 @@
             const name = sanitizeHTML(document.getElementById('tableName').value.trim());
             const phone = sanitizeHTML(document.getElementById('tablePhone').value.trim());
             const guests = sanitizeHTML(document.getElementById('tableGuests').value);
+            const date = sanitizeHTML(document.getElementById('tableDate').value);
             const time = sanitizeHTML(document.getElementById('tableTime').value);
 
-            if (!name || !phone || !time) {
-                alert("يرجى تعبئة كافة بيانات الحجز!");
+            if (!name || !phone || !date || !time) {
+                alert("يرجى تعبئة كافة بيانات الحجز وتحديد التاريخ والوقت!");
                 return;
             }
 
-            let resText = `*حجز طاولة جديد - مطعم جنين* 🍽️%0A---------------------------------%0A👤 *الاسم:* ${encodeURIComponent(name)}%0A📞 *الهاتف:* ${encodeURIComponent(phone)}%0A👥 *العدد:* ${encodeURIComponent(guests)}%0A⏰ *الموعد:* ${encodeURIComponent(time)}%0A`;
+            let resText = `*حجز طاولة جديد - مطعم جنين* 🍽️%0A---------------------------------%0A👤 *الاسم:* ${encodeURIComponent(name)}%0A📞 *الهاتف:* ${encodeURIComponent(phone)}%0A👥 *العدد:* ${encodeURIComponent(guests)}%0A📅 *التاريخ:* ${encodeURIComponent(date)}%0A⏰ *الموعد:* ${encodeURIComponent(time)}%0A`;
 
             if (method === 'whatsapp') {
                 window.open(`https://wa.me/${RESTAURANT_PHONE}?text=${resText}`, '_blank');
@@ -465,7 +474,6 @@
 
         function checkAdminPass() {
             const pass = document.getElementById('adminPass').value;
-            // كلمة المرور المؤقتة 1234 للوحة الأدمن
             if (pass === "1234") {
                 isAdminLoggedIn = true;
                 document.getElementById('adminLogin').style.display = 'none';
@@ -484,7 +492,6 @@
             }
         }
 
-        /* Secure File Upload (Base64 Validator) */
         function addNewItem() {
             const name = sanitizeHTML(document.getElementById('newItemName').value.trim());
             const price = parseFloat(document.getElementById('newItemPrice').value);
@@ -501,8 +508,6 @@
 
             if (fileInput.files && fileInput.files[0]) {
                 const file = fileInput.files[0];
-
-                // MIME Type Validation & Size Limit (2MB Max)
                 const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
                 if (!allowedTypes.includes(file.type)) {
                     alert("نوع الملف غير مسموح! يرجى اختيار صورة بصيغة (JPG, PNG, WEBP) فقط.");

@@ -93,11 +93,17 @@
         .phone-prefix-select { width: 110px !important; text-align: center; font-weight: bold; color: var(--gold) !important; cursor: pointer; }
         .phone-number-input { flex: 1; text-align: left; }
 
+        /* كروت الإحصائيات في لوحة الإدارة */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .stat-box { background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); padding: 15px; border-radius: 12px; text-align: center; }
+        .stat-value { font-size: 1.8rem; font-weight: bold; color: var(--gold); font-family: 'Cairo', sans-serif; margin-top: 5px; }
+
         .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px dashed var(--glass-border); background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 8px; }
 
         @media(max-width:768px) {
             .nav-links { display: none; }
             .hero-title { font-size: 2.2rem; }
+            .stats-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -172,7 +178,7 @@
                                 <option value="059">جوال (059)</option>
                                 <option value="056">أوريدو (056)</option>
                             </select>
-                            <input type="tel" id="tablePhoneNum" class="phone-number-input" placeholder="xxxxx" required maxlength="7">
+                            <input type="tel" id="tablePhoneNum" class="phone-number-input" placeholder="7654321" required maxlength="7">
                         </div>
                     </div>
 
@@ -283,9 +289,25 @@
             <div id="adminPanel" style="display:none;">
                 <h3 style="color:var(--gold); font-family:'Cairo'; margin-bottom:15px;"><i class="fa-solid fa-sliders"></i> لوحة الإدارة والأصناف</h3>
 
+                <!-- قسم إحصائيات المبيعات والأوردرات الجديد -->
+                <div class="glass-card" style="padding:15px; margin-bottom:20px;">
+                    <h4 style="color:var(--gold-light); margin-bottom:12px;"><i class="fa-solid fa-chart-line"></i> إحصائيات المبيعات والأوردرات:</h4>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <span style="font-size:0.85rem; color:var(--text-muted);">إجمالي عدد الأوردرات</span>
+                            <div class="stat-value" id="statOrderCount">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <span style="font-size:0.85rem; color:var(--text-muted);">إجمالي المبيعات</span>
+                            <div class="stat-value" id="statTotalRevenue">0 ₪</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline btn-sm" style="width:100%;" onclick="resetStats()"><i class="fa-solid fa-rotate-right"></i> إعادة ضبط (تصفير) الإحصائيات</button>
+                </div>
+
                 <!-- إضافة صنف جديد -->
                 <div class="glass-card" style="padding:15px; margin-bottom:20px;">
-                    <h4 style="color:var(--gold-light); margin-bottom:10px;">إضافة صنف جديد للمنيو:</h4>
+                    <h4 style="color:var(--gold-light); margin-bottom:10px;"><i class="fa-solid fa-plus-circle"></i> إضافة صنف جديد للمنيو:</h4>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                         <div class="form-group"><label>اسم الصنف:</label><input type="text" id="newItemName" placeholder="مثال: بيتزا ببروني" maxlength="50"></div>
                         <div class="form-group"><label>السعر (₪):</label><input type="number" id="newItemPrice" placeholder="35" min="1" max="1000"></div>
@@ -340,6 +362,22 @@
         const MASTER_KEY = "$2a$10$LtUPGLHkm63MNH1hFXCQoeX13/6b16g7yFE/JiMmlAViPFprqnwdi";
 
         let isAdminLoggedIn = false;
+
+        // إدارة الإحصائيات (الأوردرات والمبيعات)
+        let orderStats = JSON.parse(localStorage.getItem('jenin_order_stats')) || { count: 0, totalAmount: 0 };
+
+        function updateAdminStatsUI() {
+            document.getElementById('statOrderCount').textContent = orderStats.count;
+            document.getElementById('statTotalRevenue').textContent = orderStats.totalAmount + " ₪";
+        }
+
+        function resetStats() {
+            if(confirm("هل أنت تأكد من إعادة ضبط وتصفير جميع إحصائيات المبيعات والأوردرات؟")) {
+                orderStats = { count: 0, totalAmount: 0 };
+                localStorage.setItem('jenin_order_stats', JSON.stringify(orderStats));
+                updateAdminStatsUI();
+            }
+        }
 
         // ==================== 1. فحص تشغيل أو إيقاف الموقع بالكامل ====================
         async function checkWebsiteStatus() {
@@ -491,6 +529,7 @@
                     isAdminLoggedIn = true;
                     document.getElementById('adminLogin').style.display = 'none';
                     document.getElementById('adminPanel').style.display = 'block';
+                    updateAdminStatsUI();
                     renderMenu();
                 } else {
                     alert("⚠️ انتهت فترة الاشتراك السنوي للوحة التحكم! يرجى التواصل مع المطور للتجديد والتفعيل.");
@@ -580,7 +619,7 @@
             updateCartUI();
         }
 
-        // ==================== إرسال الطلبيات (تم التحديث لخيارات المقدمة) ====================
+        // ==================== إرسال الطلبيات وتسجيل الإحصائيات ====================
         function submitOrder(method) {
             const name = sanitizeHTML(document.getElementById('custName').value.trim());
             const prefix = document.getElementById('custPhonePrefix').value;
@@ -612,6 +651,11 @@
             const fullPhone = prefix + cleanPhoneNum;
             let total = cart.reduce((sum, item) => sum + item.price, 0);
 
+            // تحديث الإحصائيات (العدد والمبلغ)
+            orderStats.count += 1;
+            orderStats.totalAmount += total;
+            localStorage.setItem('jenin_order_stats', JSON.stringify(orderStats));
+
             let orderText = `*طلب جديد - مطعم جنين* 🛵%0A---------------------------------%0A👤 *الاسم:* ${encodeURIComponent(name)}%0A📞 *الهاتف:* ${encodeURIComponent(fullPhone)}%0A📍 *العنوان:* ${encodeURIComponent(address)}%0A📦 *نوع الطلب:* ${encodeURIComponent(orderType)}%0A---------------------------------%0A📋 *الأصناف:*%0A`;
             
             cart.forEach((item, i) => {
@@ -632,7 +676,7 @@
             closeCartModal();
         }
 
-        // ==================== حجز الطاولات (تم التحديث لخيارات المقدمة) ====================
+        // ==================== حجز الطاولات ====================
         function sendTableReservation(method) {
             const name = sanitizeHTML(document.getElementById('tableName').value.trim());
             const prefix = document.getElementById('tablePhonePrefix').value;

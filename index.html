@@ -88,6 +88,11 @@
         .form-group label { display: block; font-size: 0.85rem; margin-bottom: 5px; color: var(--gold-light); }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; background: #000; border: 1px solid var(--glass-border); border-radius: 8px; color: #fff; font-family: var(--font-main); outline: none; }
 
+        /* ستايل إدخال الهاتف المزدوج */
+        .phone-input-group { display: flex; gap: 8px; direction: ltr; }
+        .phone-prefix-select { width: 110px !important; text-align: center; font-weight: bold; color: var(--gold) !important; cursor: pointer; }
+        .phone-number-input { flex: 1; text-align: left; }
+
         .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px dashed var(--glass-border); background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 8px; }
 
         @media(max-width:768px) {
@@ -98,7 +103,7 @@
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo" id="logoAdminBtn" onclick="handleLogoClick()">
@@ -118,7 +123,7 @@
         </div>
     </nav>
 
-    <!-- Hero -->
+    <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
             <h1 class="hero-title">مطعم جنين - النصيرات</h1>
@@ -157,12 +162,20 @@
                 <form id="tableForm" onsubmit="event.preventDefault();">
                     <div class="form-group">
                         <label>الاسم الكامل:</label>
-                        <input type="text" id="tableName" placeholder="أدخل اسمك الكريم" required maxlength="50">
+                        <input type="text" id="tableName" placeholder="أدخل اسمك الكريم (الاسم الثنائي على الأقل)" required maxlength="50">
                     </div>
+                    
                     <div class="form-group">
                         <label>رقم الهاتف للاتصال:</label>
-                        <input type="tel" id="tablePhone" placeholder="059xxxxxxx" required maxlength="15">
+                        <div class="phone-input-group">
+                            <select id="tablePhonePrefix" class="phone-prefix-select">
+                                <option value="059">جوال (059)</option>
+                                <option value="056">أوريدو (056)</option>
+                            </select>
+                            <input type="tel" id="tablePhoneNum" class="phone-number-input" placeholder="xxxxx" required maxlength="7">
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label>عدد الأشخاص:</label>
                         <select id="tableGuests">
@@ -216,9 +229,27 @@
 
             <h4 style="margin: 15px 0 10px 0; color:var(--gold-light);">تعبئة بيانات الزبون للتوصيل:</h4>
             <form id="orderForm" onsubmit="event.preventDefault();">
-                <div class="form-group"><label>الاسم الكامل:</label><input type="text" id="custName" placeholder="أدخل اسمك" required maxlength="50"></div>
-                <div class="form-group"><label>رقم الهاتف:</label><input type="tel" id="custPhone" placeholder="059xxxxxxx" required maxlength="15"></div>
-                <div class="form-group"><label>العنوان / مكان التواجد التفصيلي:</label><textarea id="custAddress" rows="2" placeholder="المنطقة، الشارع، ومعلم بارز..." required maxlength="200"></textarea></div>
+                <div class="form-group">
+                    <label>الاسم الكامل:</label>
+                    <input type="text" id="custName" placeholder="أدخل اسمك الكريم (الاسم الثنائي على الأقل)" required maxlength="50">
+                </div>
+                
+                <div class="form-group">
+                    <label>رقم الهاتف:</label>
+                    <div class="phone-input-group">
+                        <select id="custPhonePrefix" class="phone-prefix-select">
+                            <option value="059">جوال (059)</option>
+                            <option value="056">أوريدو (056)</option>
+                        </select>
+                        <input type="tel" id="custPhoneNum" class="phone-number-input" placeholder="7654321" required maxlength="7">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>العنوان / مكان التواجد التفصيلي:</label>
+                    <textarea id="custAddress" rows="2" placeholder="المنطقة، الشارع، ومعلم بارز..." required maxlength="200"></textarea>
+                </div>
+                
                 <div class="form-group">
                     <label>نوع الاستلام:</label>
                     <select id="orderType">
@@ -302,7 +333,7 @@
         </div>
     </div>
 
-    <!-- JS Logic -->
+    <!-- JavaScript Script -->
     <script>
         const RESTAURANT_PHONE = "970595864888";
         const LICENSE_CHECK_URL = "https://api.jsonbin.io/v3/b/6a692f6df5f4af5e29ceeed0/latest";
@@ -333,7 +364,6 @@
                         if (today > expiryDate) isExpired = true;
                     }
 
-                    // إذا تم إيقاف الحساب أو تجاوز التاريخ المسموح به
                     if (isActive === false || isExpired) {
                         disableWholeWebsite();
                     }
@@ -343,7 +373,6 @@
             }
         }
 
-        // واجهة إيقاف الموقع بالكامل
         function disableWholeWebsite() {
             document.body.innerHTML = `
                 <div style="
@@ -468,7 +497,7 @@
                 }
             } catch (error) {
                 console.error("License Check Error:", error);
-                alert("تعذر التحقق من ترخيص اللوحة. تأكد من اتصالك بالإنترنت وضبط المفتاح بنجاح.");
+                alert("تعذر التحقق من ترخيص اللوحة. تأكد من اتصالك بالإنترنت.");
             } finally {
                 loginBtn.textContent = originalText;
                 loginBtn.disabled = false;
@@ -490,7 +519,7 @@
             }
 
             localStorage.setItem('jenin_admin_pass', newPass);
-            alert("تم تغيير كلمة المرور بنجاح! استخدم كلمة المرور الجديدة في المرات القادمة.");
+            alert("تم تغيير كلمة المرور بنجاح!");
 
             document.getElementById('newPassInput').value = '';
             document.getElementById('confirmPassInput').value = '';
@@ -551,20 +580,39 @@
             updateCartUI();
         }
 
+        // ==================== إرسال الطلبيات (تم التحديث لخيارات المقدمة) ====================
         function submitOrder(method) {
             const name = sanitizeHTML(document.getElementById('custName').value.trim());
-            const phone = sanitizeHTML(document.getElementById('custPhone').value.trim());
+            const prefix = document.getElementById('custPhonePrefix').value;
+            const phoneNum = sanitizeHTML(document.getElementById('custPhoneNum').value.trim());
             const address = sanitizeHTML(document.getElementById('custAddress').value.trim());
             const orderType = sanitizeHTML(document.getElementById('orderType').value);
 
-            if (!name || !phone || !address || cart.length === 0) {
+            if (!name || !phoneNum || !address || cart.length === 0) {
                 alert("يرجى ملء كافة البيانات المطلوبة وإضافة أصناف للسلة أولاً!");
                 return;
             }
 
+            // فحص صحة الاسم (كلمتين على الأقل)
+            const nameWords = name.split(/\s+/).filter(word => word.length > 0);
+            if (nameWords.length < 2) {
+                alert("يرجى إدخال الاسم كاملاً (الاسم الثنائي على الأقل)!");
+                document.getElementById('custName').focus();
+                return;
+            }
+
+            // فحص أرقام الهاتف (يجب أن تتكون من 7 أرقام فقط)
+            const cleanPhoneNum = phoneNum.replace(/\D/g, '');
+            if (cleanPhoneNum.length !== 7) {
+                alert("يرجى أدخل بقية رقم الهاتف والمكون من 7 أرقام بالضبط!");
+                document.getElementById('custPhoneNum').focus();
+                return;
+            }
+
+            const fullPhone = prefix + cleanPhoneNum;
             let total = cart.reduce((sum, item) => sum + item.price, 0);
 
-            let orderText = `*طلب جديد - مطعم جنين* 🛵%0A---------------------------------%0A👤 *الاسم:* ${encodeURIComponent(name)}%0A📞 *الهاتف:* ${encodeURIComponent(phone)}%0A📍 *العنوان:* ${encodeURIComponent(address)}%0A📦 *نوع الطلب:* ${encodeURIComponent(orderType)}%0A---------------------------------%0A📋 *الأصناف:*%0A`;
+            let orderText = `*طلب جديد - مطعم جنين* 🛵%0A---------------------------------%0A👤 *الاسم:* ${encodeURIComponent(name)}%0A📞 *الهاتف:* ${encodeURIComponent(fullPhone)}%0A📍 *العنوان:* ${encodeURIComponent(address)}%0A📦 *نوع الطلب:* ${encodeURIComponent(orderType)}%0A---------------------------------%0A📋 *الأصناف:*%0A`;
             
             cart.forEach((item, i) => {
                 orderText += `${i+1}. ${encodeURIComponent(item.name)} ${item.selectedSpice ? `(${encodeURIComponent(item.selectedSpice)})` : ''} - ${item.price}₪%0A`;
@@ -584,20 +632,39 @@
             closeCartModal();
         }
 
-        // ==================== حجز الطاولات ====================
+        // ==================== حجز الطاولات (تم التحديث لخيارات المقدمة) ====================
         function sendTableReservation(method) {
             const name = sanitizeHTML(document.getElementById('tableName').value.trim());
-            const phone = sanitizeHTML(document.getElementById('tablePhone').value.trim());
+            const prefix = document.getElementById('tablePhonePrefix').value;
+            const phoneNum = sanitizeHTML(document.getElementById('tablePhoneNum').value.trim());
             const guests = sanitizeHTML(document.getElementById('tableGuests').value);
             const date = sanitizeHTML(document.getElementById('tableDate').value);
             const time = sanitizeHTML(document.getElementById('tableTime').value);
 
-            if (!name || !phone || !date || !time) {
+            if (!name || !phoneNum || !date || !time) {
                 alert("يرجى تعبئة كافة بيانات الحجز وتحديد التاريخ والوقت!");
                 return;
             }
 
-            let resText = `*حجز طاولة جديد - مطعم جنين* 🍽️%0A---------------------------------%0A👤 *الاسم:* ${encodeURIComponent(name)}%0A📞 *الهاتف:* ${encodeURIComponent(phone)}%0A👥 *العدد:* ${encodeURIComponent(guests)}%0A📅 *التاريخ:* ${encodeURIComponent(date)}%0A⏰ *الموعد:* ${encodeURIComponent(time)}%0A`;
+            // فحص صحة الاسم (كلمتين على الأقل)
+            const nameWords = name.split(/\s+/).filter(word => word.length > 0);
+            if (nameWords.length < 2) {
+                alert("يرجى إدخال الاسم كاملاً (الاسم الثنائي على الأقل)!");
+                document.getElementById('tableName').focus();
+                return;
+            }
+
+            // فحص أرقام الهاتف (يجب أن تتكون من 7 أرقام فقط)
+            const cleanPhoneNum = phoneNum.replace(/\D/g, '');
+            if (cleanPhoneNum.length !== 7) {
+                alert("يرجى أدخل بقية رقم الهاتف والمكون من 7 أرقام بالضبط!");
+                document.getElementById('tablePhoneNum').focus();
+                return;
+            }
+
+            const fullPhone = prefix + cleanPhoneNum;
+
+            let resText = `*حجز طاولة جديد - مطعم جنين* 🍽️%0A---------------------------------%0A👤 *الاسم:* ${encodeURIComponent(name)}%0A📞 *الهاتف:* ${encodeURIComponent(fullPhone)}%0A👥 *العدد:* ${encodeURIComponent(guests)}%0A📅 *التاريخ:* ${encodeURIComponent(date)}%0A⏰ *الموعد:* ${encodeURIComponent(time)}%0A`;
 
             if (method === 'whatsapp') {
                 window.open(`https://wa.me/${RESTAURANT_PHONE}?text=${resText}`, '_blank');

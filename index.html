@@ -1,18 +1,50 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" id="htmlTag">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطعم جنين | طلب الطعام وحجز الطاولات</title>
     
-    <!-- Content Security Policy (CSP) -->
+    <!-- SEO Meta Tags (AR & EN) -->
+    <title id="seoTitle">مطعم جنين | Jenin Restaurant - النصيرات</title>
+    <meta name="description" id="seoDesc" content="مطعم جنين في النصيرات - أشهى المأكولات الشرقية والمشاوي والشاورما والمشروبات الطازجة | Jenin Restaurant in Nuseirat - Best Grill, Shawarma & Drinks">
+    <meta name="keywords" content="مطعم جنين, Jenin Restaurant, مطاعم النصيرات, مشاوي النصيرات, شاورما غزة, مطعم جنين النصيرات, Jenin Nuseirat">
+    <meta name="author" content="Jenin Restaurant">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph (WhatsApp & Socials) -->
+    <meta property="og:title" content="مطعم جنين | Jenin Restaurant">
+    <meta property="og:description" content="أشهى المأكولات الشرقية والمشاوي والمشروبات الطازجة في النصيرات.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:type" content="restaurant">
+    
+    <!-- CSP -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com https://images.unsplash.com https://api.jsonbin.io data:; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;">
 
-    <!-- Google Fonts & FontAwesome -->
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Schema.org Data for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "مطعم جنين - Jenin Restaurant",
+      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80",
+      "telephone": "+970595864888",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "الدوار العام",
+        "addressLocality": "النصيرات",
+        "addressRegion": "غزة",
+        "addressCountry": "PS"
+      },
+      "servesCuisine": ["Arabic", "Grill", "Middle Eastern"],
+      "priceRange": "₪₪"
+    }
+    </script>
 
     <style>
         :root {
@@ -26,7 +58,7 @@
             --text-muted: #a0a0a0;
             --glass-bg: rgba(24, 24, 28, 0.85);
             --glass-border: rgba(212, 175, 55, 0.25);
-            --font-main: 'Tajawal', 'Cairo', sans-serif;
+            --font-main: 'Tajawal', 'Cairo', 'Poppins', sans-serif;
             --transition: all 0.3s ease;
         }
 
@@ -41,7 +73,7 @@
         .section-padding { padding: 80px 0; }
         .section-header { text-align: center; margin-bottom: 40px; }
         .section-subtitle { color: var(--gold); font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-        .section-title { font-family: 'Cairo', sans-serif; font-size: 2.3rem; font-weight: 800; color: var(--white); margin-top: 5px; }
+        .section-title { font-family: 'Cairo', 'Poppins', sans-serif; font-size: 2.3rem; font-weight: 800; color: var(--white); margin-top: 5px; }
 
         .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 24px; border-radius: 50px; font-size: 0.95rem; font-weight: 700; text-decoration: none; transition: var(--transition); cursor: pointer; border: none; }
         .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: #000; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
@@ -55,17 +87,21 @@
 
         .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 15px 0; background: rgba(15, 15, 17, 0.95); border-bottom: 1px solid var(--glass-border); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; }
-        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: 'Cairo', sans-serif; font-size: 1.6rem; font-weight: 900; color: var(--white); cursor: pointer; user-select: none; }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: 'Cairo', 'Poppins', sans-serif; font-size: 1.6rem; font-weight: 900; color: var(--white); cursor: pointer; user-select: none; }
         .logo span { color: var(--gold); }
         .nav-links { display: flex; gap: 20px; list-style: none; }
         .nav-link { color: var(--light-gray); text-decoration: none; font-weight: 500; transition: var(--transition); }
         .nav-link:hover { color: var(--gold); }
 
+        .nav-actions { display: flex; align-items: center; gap: 12px; }
+        .lang-btn { background: rgba(212, 175, 55, 0.15); color: var(--gold); border: 1px solid var(--gold); padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: var(--transition); }
+        .lang-btn:hover { background: var(--gold); color: #000; }
+
         .cart-trigger { position: relative; background: var(--gold); color: #000; padding: 8px 18px; border-radius: 30px; cursor: pointer; font-weight: bold; border: none; }
         .cart-badge { background: #e74c3c; color: white; border-radius: 50%; padding: 2px 7px; font-size: 0.75rem; position: absolute; top: -5px; right: -5px; }
 
         .hero { height: 65vh; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(rgba(15,15,17,0.7), rgba(15,15,17,0.98)), url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1920&q=80') center/cover; margin-top: 60px; }
-        .hero-title { font-family: 'Cairo'; font-size: 3.2rem; font-weight: 900; }
+        .hero-title { font-family: 'Cairo', 'Poppins'; font-size: 3.2rem; font-weight: 900; }
 
         .menu-filters { display: flex; justify-content: center; gap: 10px; margin-bottom: 35px; flex-wrap: wrap; }
         .filter-btn { background: var(--bg-card); color: var(--light-gray); border: 1px solid var(--glass-border); padding: 8px 20px; border-radius: 20px; cursor: pointer; font-family: var(--font-main); transition: var(--transition); }
@@ -83,20 +119,19 @@
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center; padding: 20px; }
         .modal-card { background: var(--bg-card); border: 1px solid var(--gold); width: 100%; max-width: 650px; border-radius: 16px; max-height: 90vh; overflow-y: auto; padding: 25px; position: relative; }
         .modal-close { position: absolute; top: 15px; left: 15px; color: var(--text-muted); cursor: pointer; font-size: 1.4rem; }
+        html[dir="ltr"] .modal-close { left: auto; right: 15px; }
 
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 0.85rem; margin-bottom: 5px; color: var(--gold-light); }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; background: #000; border: 1px solid var(--glass-border); border-radius: 8px; color: #fff; font-family: var(--font-main); outline: none; }
 
-        /* ستايل إدخال الهاتف المزدوج */
         .phone-input-group { display: flex; gap: 8px; direction: ltr; }
         .phone-prefix-select { width: 110px !important; text-align: center; font-weight: bold; color: var(--gold) !important; cursor: pointer; }
         .phone-number-input { flex: 1; text-align: left; }
 
-        /* كروت الإحصائيات في لوحة الإدارة */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
         .stat-box { background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); padding: 15px; border-radius: 12px; text-align: center; }
-        .stat-value { font-size: 1.8rem; font-weight: bold; color: var(--gold); font-family: 'Cairo', sans-serif; margin-top: 5px; }
+        .stat-value { font-size: 1.8rem; font-weight: bold; color: var(--gold); font-family: 'Cairo', 'Poppins', sans-serif; margin-top: 5px; }
 
         .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px dashed var(--glass-border); background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 8px; }
 
@@ -113,28 +148,31 @@
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo" id="logoAdminBtn" onclick="handleLogoClick()">
-                <i class="fa-solid fa-utensils"></i> مطعم <span>جنين</span>
+                <i class="fa-solid fa-utensils"></i> <span id="logoText">مطعم <span>جنين</span></span>
             </div>
             
             <ul class="nav-links">
-                <li><a href="#home" class="nav-link">الرئيسية</a></li>
-                <li><a href="#menu" class="nav-link">المنيو</a></li>
-                <li><a href="#reservation" class="nav-link">حجز طاولة</a></li>
+                <li><a href="#home" class="nav-link" id="navHome">الرئيسية</a></li>
+                <li><a href="#menu" class="nav-link" id="navMenu">المنيو</a></li>
+                <li><a href="#reservation" class="nav-link" id="navReserve">حجز طاولة</a></li>
             </ul>
 
-            <button class="cart-trigger" onclick="openCartModal()">
-                <i class="fa-solid fa-basket-shopping"></i> السلة
-                <span class="cart-badge" id="cartCount">0</span>
-            </button>
+            <div class="nav-actions">
+                <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">English 🌐</button>
+                <button class="cart-trigger" onclick="openCartModal()">
+                    <i class="fa-solid fa-basket-shopping"></i> <span id="cartBtnText">السلة</span>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </button>
+            </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
-            <h1 class="hero-title">مطعم جنين - النصيرات</h1>
-            <p style="color: var(--light-gray); margin-bottom: 25px;">أشهى المأكولات الشرقية والمشاوي والمشروبات الطازجة</p>
-            <a href="#menu" class="btn btn-gold"><i class="fa-solid fa-utensils"></i> استعراض المنيو والطلب</a>
+            <h1 class="hero-title" id="heroTitle">مطعم جنين - النصيرات</h1>
+            <p style="color: var(--light-gray); margin-bottom: 25px;" id="heroSubtitle">أشهى المأكولات الشرقية والمشاوي والمشروبات الطازجة</p>
+            <a href="#menu" class="btn btn-gold" id="heroBtn"><i class="fa-solid fa-utensils"></i> استعراض المنيو والطلب</a>
         </div>
     </section>
 
@@ -142,15 +180,15 @@
     <section class="section-padding" id="menu">
         <div class="container">
             <div class="section-header">
-                <span class="section-subtitle">قائمة الطعام والمشروبات</span>
-                <h2 class="section-title">اختر وجبتك أو مشروبك المفضل</h2>
+                <span class="section-subtitle" id="menuSubtitle">قائمة الطعام والمشروبات</span>
+                <h2 class="section-title" id="menuTitle">اختر وجبتك أو مشروبك المفضل</h2>
             </div>
 
             <div class="menu-filters">
-                <button class="filter-btn active" onclick="filterMenu('all', this)">الكل</button>
-                <button class="filter-btn" onclick="filterMenu('meals', this)">الوجبات والأطباق 🍖</button>
-                <button class="filter-btn" onclick="filterMenu('cold-drinks', this)">مشروبات باردة 🍹</button>
-                <button class="filter-btn" onclick="filterMenu('hot-drinks', this)">مشروبات ساخنة ☕</button>
+                <button class="filter-btn active" id="filterAll" onclick="filterMenu('all', this)">الكل</button>
+                <button class="filter-btn" id="filterMeals" onclick="filterMenu('meals', this)">الوجبات والأطباق 🍖</button>
+                <button class="filter-btn" id="filterCold" onclick="filterMenu('cold-drinks', this)">مشروبات باردة 🍹</button>
+                <button class="filter-btn" id="filterHot" onclick="filterMenu('hot-drinks', this)">مشروبات ساخنة ☕</button>
             </div>
 
             <div class="menu-grid" id="menuGrid"></div>
@@ -161,50 +199,50 @@
     <section class="section-padding" id="reservation" style="background: rgba(24,24,28,0.5);">
         <div class="container">
             <div class="section-header">
-                <span class="section-subtitle">حجز طاولة أونلاين</span>
-                <h2 class="section-title">احجز طاولتك العائلية الآن</h2>
+                <span class="section-subtitle" id="resSubtitle">حجز طاولة أونلاين</span>
+                <h2 class="section-title" id="resTitle">احجز طاولتك العائلية الآن</h2>
             </div>
             <div class="glass-card" style="max-width: 600px; margin: 0 auto; padding: 25px;">
                 <form id="tableForm" onsubmit="event.preventDefault();">
                     <div class="form-group">
-                        <label>الاسم الكامل:</label>
+                        <label id="lblResName">الاسم الكامل:</label>
                         <input type="text" id="tableName" placeholder="أدخل اسمك الكريم (الاسم الثنائي على الأقل)" required maxlength="50">
                     </div>
                     
                     <div class="form-group">
-                        <label>رقم الهاتف للاتصال:</label>
+                        <label id="lblResPhone">رقم الهاتف للاتصال:</label>
                         <div class="phone-input-group">
                             <select id="tablePhonePrefix" class="phone-prefix-select">
-                                <option value="059">جوال (059)</option>
-                                <option value="056">أوريدو (056)</option>
+                                <option value="059">059</option>
+                                <option value="056">056</option>
                             </select>
                             <input type="tel" id="tablePhoneNum" class="phone-number-input" placeholder="7654321" required maxlength="7">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label>عدد الأشخاص:</label>
+                        <label id="lblResGuests">عدد الأشخاص:</label>
                         <select id="tableGuests">
-                            <option value="شخصين (2)">شخصين (2)</option>
-                            <option value="عائلة صغيرة (3-5)">عائلة صغيرة (3-5)</option>
-                            <option value="عائلة كبيرة (6 فأكثر)">عائلة كبيرة (6 فأكثر)</option>
+                            <option value="شخصين (2)" id="optG1">شخصين (2)</option>
+                            <option value="عائلة صغيرة (3-5)" id="optG2">عائلة صغيرة (3-5)</option>
+                            <option value="عائلة كبيرة (6 فأكثر)" id="optG3">عائلة كبيرة (6 فأكثر)</option>
                         </select>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                         <div class="form-group">
-                            <label>التاريخ المفضل:</label>
-                            <input type="date" id="tableDate" required style="color-scheme: dark; direction: ltr; text-align: right;">
+                            <label id="lblResDate">التاريخ المفضل:</label>
+                            <input type="date" id="tableDate" required style="color-scheme: dark;">
                         </div>
                         <div class="form-group">
-                            <label>الوقت المفضل:</label>
-                            <input type="time" id="tableTime" required style="color-scheme: dark; direction: ltr; text-align: right;">
+                            <label id="lblResTime">الوقت المفضل:</label>
+                            <input type="time" id="tableTime" required style="color-scheme: dark;">
                         </div>
                     </div>
 
                     <div style="display:flex; gap:10px; margin-top: 15px;">
-                        <button type="button" class="btn btn-gold" style="flex:1;" onclick="sendTableReservation('whatsapp')"><i class="fa-brands fa-whatsapp"></i> حجز عبر الواتساب</button>
-                        <button type="button" class="btn btn-outline" style="flex:1;" onclick="sendTableReservation('sms')"><i class="fa-solid fa-comment-sms"></i> حجز عبر SMS</button>
+                        <button type="button" class="btn btn-gold" style="flex:1;" onclick="sendTableReservation('whatsapp')"><i class="fa-brands fa-whatsapp"></i> <span id="btnResWA">حجز عبر الواتساب</span></button>
+                        <button type="button" class="btn btn-outline" style="flex:1;" onclick="sendTableReservation('sms')"><i class="fa-solid fa-comment-sms"></i> <span id="btnResSMS">حجز عبر SMS</span></button>
                     </div>
                 </form>
             </div>
@@ -214,7 +252,7 @@
     <!-- Footer -->
     <footer style="padding: 30px 0; border-top: 1px solid var(--glass-border); text-align: center;">
         <div class="container">
-            <p style="color:var(--gold); font-weight:bold;">مطعم جنين - النصيرات، الدوار العام، غزة</p>
+            <p style="color:var(--gold); font-weight:bold;" id="ftrText">مطعم جنين - النصيرات، الدوار العام، غزة</p>
             <p style="color:var(--text-muted); font-size:0.9rem; margin-top:5px;">هاتف / واتساب: +970 595 864 888</p>
             <p style="color:var(--text-muted); font-size:0.8rem; margin-top:15px;">&copy; 2026 جميع الحقوق محفوظة لمطعم جنين.</p>
         </div>
@@ -224,49 +262,49 @@
     <div class="modal-overlay" id="cartModal">
         <div class="modal-card">
             <i class="fa-solid fa-xmark modal-close" onclick="closeCartModal()"></i>
-            <h3 style="color:var(--gold); font-family:'Cairo'; margin-bottom:15px;"><i class="fa-solid fa-receipt"></i> قائمة المأكولات والمشروبات المختارة</h3>
+            <h3 style="color:var(--gold); font-family:'Cairo', 'Poppins'; margin-bottom:15px;" id="cartModalTitle"><i class="fa-solid fa-receipt"></i> قائمة المأكولات والمشروبات المختارة</h3>
             
             <div id="cartItemsContainer"></div>
 
             <div style="margin: 15px 0; border-top: 1px solid var(--glass-border); padding-top: 10px; display:flex; justify-content:space-between; font-weight:bold;">
-                <span>المجموع الإجمالي:</span>
+                <span id="cartTotalLabel">المجموع الإجمالي:</span>
                 <span style="color:var(--gold); font-size:1.2rem;" id="cartTotal">0 ₪</span>
             </div>
 
-            <h4 style="margin: 15px 0 10px 0; color:var(--gold-light);">تعبئة بيانات الزبون للتوصيل:</h4>
+            <h4 style="margin: 15px 0 10px 0; color:var(--gold-light);" id="cartFormTitle">تعبئة بيانات الزبون للتوصيل:</h4>
             <form id="orderForm" onsubmit="event.preventDefault();">
                 <div class="form-group">
-                    <label>الاسم الكامل:</label>
+                    <label id="lblCustName">الاسم الكامل:</label>
                     <input type="text" id="custName" placeholder="أدخل اسمك الكريم (الاسم الثنائي على الأقل)" required maxlength="50">
                 </div>
                 
                 <div class="form-group">
-                    <label>رقم الهاتف:</label>
+                    <label id="lblCustPhone">رقم الهاتف:</label>
                     <div class="phone-input-group">
                         <select id="custPhonePrefix" class="phone-prefix-select">
-                            <option value="059">جوال (059)</option>
-                            <option value="056">أوريدو (056)</option>
+                            <option value="059">059</option>
+                            <option value="056">056</option>
                         </select>
                         <input type="tel" id="custPhoneNum" class="phone-number-input" placeholder="7654321" required maxlength="7">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>العنوان / مكان التواجد التفصيلي:</label>
+                    <label id="lblCustAddress">العنوان / مكان التواجد التفصيلي:</label>
                     <textarea id="custAddress" rows="2" placeholder="المنطقة، الشارع، ومعلم بارز..." required maxlength="200"></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label>نوع الاستلام:</label>
+                    <label id="lblOrderType">نوع الاستلام:</label>
                     <select id="orderType">
-                        <option value="توصيل للمنزل 🛵">توصيل للمنزل 🛵</option>
-                        <option value="استلام الطلبية 🛍️">استلام الطلبية من المطعم 🛍️</option>
+                        <option value="توصيل للمنزل 🛵" id="optDel">توصيل للمنزل 🛵</option>
+                        <option value="استلام الطلبية 🛍️" id="optPick">استلام الطلبية من المطعم 🛍️</option>
                     </select>
                 </div>
                 
                 <div style="display:flex; gap:10px; margin-top:15px;">
-                    <button type="button" class="btn btn-gold" style="flex:1;" onclick="submitOrder('whatsapp')"><i class="fa-brands fa-whatsapp"></i> إرسال واتساب</button>
-                    <button type="button" class="btn btn-outline" style="flex:1;" onclick="submitOrder('sms')"><i class="fa-solid fa-comment-sms"></i> إرسال SMS</button>
+                    <button type="button" class="btn btn-gold" style="flex:1;" onclick="submitOrder('whatsapp')"><i class="fa-brands fa-whatsapp"></i> <span id="btnOrderWA">إرسال واتساب</span></button>
+                    <button type="button" class="btn btn-outline" style="flex:1;" onclick="submitOrder('sms')"><i class="fa-solid fa-comment-sms"></i> <span id="btnOrderSMS">إرسال SMS</span></button>
                 </div>
             </form>
         </div>
@@ -289,7 +327,6 @@
             <div id="adminPanel" style="display:none;">
                 <h3 style="color:var(--gold); font-family:'Cairo'; margin-bottom:15px;"><i class="fa-solid fa-sliders"></i> لوحة الإدارة والأصناف</h3>
 
-                <!-- قسم إحصائيات المبيعات والأوردرات الجديد -->
                 <div class="glass-card" style="padding:15px; margin-bottom:20px;">
                     <h4 style="color:var(--gold-light); margin-bottom:12px;"><i class="fa-solid fa-chart-line"></i> إحصائيات المبيعات والأوردرات:</h4>
                     <div class="stats-grid">
@@ -305,11 +342,11 @@
                     <button class="btn btn-outline btn-sm" style="width:100%;" onclick="resetStats()"><i class="fa-solid fa-rotate-right"></i> إعادة ضبط (تصفير) الإحصائيات</button>
                 </div>
 
-                <!-- إضافة صنف جديد -->
                 <div class="glass-card" style="padding:15px; margin-bottom:20px;">
                     <h4 style="color:var(--gold-light); margin-bottom:10px;"><i class="fa-solid fa-plus-circle"></i> إضافة صنف جديد للمنيو:</h4>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                        <div class="form-group"><label>اسم الصنف:</label><input type="text" id="newItemName" placeholder="مثال: بيتزا ببروني" maxlength="50"></div>
+                        <div class="form-group"><label>اسم الصنف (بالعربي):</label><input type="text" id="newItemName" placeholder="بيتزا ببروني" maxlength="50"></div>
+                        <div class="form-group"><label>Item Name (English):</label><input type="text" id="newItemNameEn" placeholder="Pepperoni Pizza" maxlength="50"></div>
                         <div class="form-group"><label>السعر (₪):</label><input type="number" id="newItemPrice" placeholder="35" min="1" max="1000"></div>
                         <div class="form-group">
                             <label>القسم:</label>
@@ -317,13 +354,6 @@
                                 <option value="meals">وجبات رئيسية 🍖</option>
                                 <option value="cold-drinks">مشروبات باردة 🍹</option>
                                 <option value="hot-drinks">مشروبات ساخنة ☕</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>خيار حار / عادي؟</label>
-                            <select id="newItemSpice">
-                                <option value="no">لا</option>
-                                <option value="yes">نعم</option>
                             </select>
                         </div>
                     </div>
@@ -336,7 +366,6 @@
                     <button class="btn btn-gold btn-sm" onclick="addNewItem()"><i class="fa-solid fa-plus"></i> إضافة الصنف للرئيسية</button>
                 </div>
 
-                <!-- تغيير كلمة السر -->
                 <div class="glass-card" style="padding:15px;">
                     <h4 style="color:var(--gold-light); margin-bottom:10px;"><i class="fa-solid fa-key"></i> تغيير كلمة مرور لوحة الإدارة:</h4>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
@@ -361,10 +390,122 @@
         const LICENSE_CHECK_URL = "https://api.jsonbin.io/v3/b/6a692f6df5f4af5e29ceeed0/latest";
         const MASTER_KEY = "$2a$10$LtUPGLHkm63MNH1hFXCQoeX13/6b16g7yFE/JiMmlAViPFprqnwdi";
 
+        let currentLang = localStorage.getItem('jenin_lang') || 'ar';
         let isAdminLoggedIn = false;
-
-        // إدارة الإحصائيات (الأوردرات والمبيعات)
         let orderStats = JSON.parse(localStorage.getItem('jenin_order_stats')) || { count: 0, totalAmount: 0 };
+
+        const translations = {
+            ar: {
+                langBtn: "English 🌐",
+                logoText: 'مطعم <span>جنين</span>',
+                navHome: "الرئيسية", navMenu: "المنيو", navReserve: "حجز طاولة", cartBtnText: "السلة",
+                heroTitle: "مطعم جنين - النصيرات", heroSubtitle: "أشهى المأكولات الشرقية والمشاوي والمشروبات الطازجة", heroBtn: '<i class="fa-solid fa-utensils"></i> استعراض المنيو والطلب',
+                menuSubtitle: "قائمة الطعام والمشروبات", menuTitle: "اختر وجبتك أو مشروبك المفضل",
+                filterAll: "الكل", filterMeals: "الوجبات والأطباق 🍖", filterCold: "مشروبات باردة 🍹", filterHot: "مشروبات ساخنة ☕",
+                resSubtitle: "حجز طاولة أونلاين", resTitle: "احجز طاولتك العائلية الآن",
+                lblResName: "الاسم الكامل:", namePlaceholder: "أدخل اسمك الكريم (الاسم الثنائي على الأقل)",
+                lblResPhone: "رقم الهاتف للاتصال:", lblResGuests: "عدد الأشخاص:",
+                optG1: "شخصين (2)", optG2: "عائلة صغيرة (3-5)", optG3: "عائلة كبيرة (6 فأكثر)",
+                lblResDate: "التاريخ المفضل:", lblResTime: "الوقت المفضل:",
+                btnResWA: "حجز عبر الواتساب", btnResSMS: "حجز عبر SMS",
+                ftrText: "مطعم جنين - النصيرات، الدوار العام، غزة",
+                cartModalTitle: '<i class="fa-solid fa-receipt"></i> قائمة المأكولات والمشروبات المختارة',
+                cartTotalLabel: "المجموع الإجمالي:", cartFormTitle: "تعبئة بيانات الزبون للتوصيل:",
+                lblCustName: "الاسم الكامل:", lblCustPhone: "رقم الهاتف:", lblCustAddress: "العنوان / مكان التواجد التفصيلي:",
+                addressPlaceholder: "المنطقة، الشارع، ومعلم بارز...", lblOrderType: "نوع الاستلام:",
+                optDel: "توصيل للمنزل 🛵", optPick: "استلام الطلبية من المطعم 🛍️",
+                btnOrderWA: "إرسال واتساب", btnOrderSMS: "إرسال SMS",
+                addBtnText: '<i class="fa-solid fa-cart-plus"></i> إضافة للسلة', emptyCartText: "لم تقم بإضافة أي أصناف بعد.."
+            },
+            en: {
+                langBtn: "عربي 🌐",
+                logoText: 'Jenin <span>Restaurant</span>',
+                navHome: "Home", navMenu: "Menu", navReserve: "Reservations", cartBtnText: "Cart",
+                heroTitle: "Jenin Restaurant - Nuseirat", heroSubtitle: "Best Oriental Grill, Shawarma & Fresh Drinks", heroBtn: '<i class="fa-solid fa-utensils"></i> View Menu & Order',
+                menuSubtitle: "Food & Drinks Menu", menuTitle: "Choose Your Favorite Meal",
+                filterAll: "All", filterMeals: "Meals & Dishes 🍖", filterCold: "Cold Drinks 🍹", filterHot: "Hot Beverages ☕",
+                resSubtitle: "Online Table Booking", resTitle: "Reserve Your Family Table Now",
+                lblResName: "Full Name:", namePlaceholder: "Enter your full name",
+                lblResPhone: "Phone Number:", lblResGuests: "Number of Guests:",
+                optG1: "2 Persons", optG2: "Small Family (3-5)", optG3: "Large Family (6+)",
+                lblResDate: "Preferred Date:", lblResTime: "Preferred Time:",
+                btnResWA: "Book via WhatsApp", btnResSMS: "Book via SMS",
+                ftrText: "Jenin Restaurant - Nuseirat, Main Square, Gaza",
+                cartModalTitle: '<i class="fa-solid fa-receipt"></i> Selected Dishes & Drinks',
+                cartTotalLabel: "Total Amount:", cartFormTitle: "Delivery Customer Information:",
+                lblCustName: "Full Name:", lblCustPhone: "Phone Number:", lblCustAddress: "Detailed Address:",
+                addressPlaceholder: "Area, street, landmark...", lblOrderType: "Order Type:",
+                optDel: "Home Delivery 🛵", optPick: "Restaurant Pickup 🛍️",
+                btnOrderWA: "Send via WhatsApp", btnOrderSMS: "Send via SMS",
+                addBtnText: '<i class="fa-solid fa-cart-plus"></i> Add to Cart', emptyCartText: "Your cart is empty.."
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('jenin_lang', currentLang);
+            applyLanguage();
+        }
+
+        function applyLanguage() {
+            const t = translations[currentLang];
+            const html = document.getElementById('htmlTag');
+            
+            html.setAttribute('lang', currentLang);
+            html.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+
+            document.getElementById('langBtn').textContent = t.langBtn;
+            document.getElementById('logoText').innerHTML = t.logoText;
+            document.getElementById('navHome').textContent = t.navHome;
+            document.getElementById('navMenu').textContent = t.navMenu;
+            document.getElementById('navReserve').textContent = t.navReserve;
+            document.getElementById('cartBtnText').textContent = t.cartBtnText;
+
+            document.getElementById('heroTitle').textContent = t.heroTitle;
+            document.getElementById('heroSubtitle').textContent = t.heroSubtitle;
+            document.getElementById('heroBtn').innerHTML = t.heroBtn;
+
+            document.getElementById('menuSubtitle').textContent = t.menuSubtitle;
+            document.getElementById('menuTitle').textContent = t.menuTitle;
+
+            document.getElementById('filterAll').textContent = t.filterAll;
+            document.getElementById('filterMeals').textContent = t.filterMeals;
+            document.getElementById('filterCold').textContent = t.filterCold;
+            document.getElementById('filterHot').textContent = t.filterHot;
+
+            document.getElementById('resSubtitle').textContent = t.resSubtitle;
+            document.getElementById('resTitle').textContent = t.resTitle;
+            document.getElementById('lblResName').textContent = t.lblResName;
+            document.getElementById('tableName').placeholder = t.namePlaceholder;
+            document.getElementById('lblResPhone').textContent = t.lblResPhone;
+            document.getElementById('lblResGuests').textContent = t.lblResGuests;
+            document.getElementById('optG1').textContent = t.optG1;
+            document.getElementById('optG2').textContent = t.optG2;
+            document.getElementById('optG3').textContent = t.optG3;
+            document.getElementById('lblResDate').textContent = t.lblResDate;
+            document.getElementById('lblResTime').textContent = t.lblResTime;
+            document.getElementById('btnResWA').textContent = t.btnResWA;
+            document.getElementById('btnResSMS').textContent = t.btnResSMS;
+
+            document.getElementById('ftrText').textContent = t.ftrText;
+
+            document.getElementById('cartModalTitle').innerHTML = t.cartModalTitle;
+            document.getElementById('cartTotalLabel').textContent = t.cartTotalLabel;
+            document.getElementById('cartFormTitle').textContent = t.cartFormTitle;
+            document.getElementById('lblCustName').textContent = t.lblCustName;
+            document.getElementById('custName').placeholder = t.namePlaceholder;
+            document.getElementById('lblCustPhone').textContent = t.lblCustPhone;
+            document.getElementById('lblCustAddress').textContent = t.lblCustAddress;
+            document.getElementById('custAddress').placeholder = t.addressPlaceholder;
+            document.getElementById('lblOrderType').textContent = t.lblOrderType;
+            document.getElementById('optDel').textContent = t.optDel;
+            document.getElementById('optPick').textContent = t.optPick;
+            document.getElementById('btnOrderWA').textContent = t.btnOrderWA;
+            document.getElementById('btnOrderSMS').textContent = t.btnOrderSMS;
+
+            renderMenu();
+            updateCartUI();
+        }
 
         function updateAdminStatsUI() {
             document.getElementById('statOrderCount').textContent = orderStats.count;
@@ -379,7 +520,6 @@
             }
         }
 
-        // ==================== 1. فحص تشغيل أو إيقاف الموقع بالكامل ====================
         async function checkWebsiteStatus() {
             try {
                 const response = await fetch(LICENSE_CHECK_URL, {
@@ -407,48 +547,17 @@
                     }
                 }
             } catch (error) {
-                console.error("خطأ أثناء فحص الترخيص:", error);
+                console.error("License check error:", error);
             }
         }
 
         function disableWholeWebsite() {
             document.body.innerHTML = `
-                <div style="
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    min-height: 100vh;
-                    background-color: #0f0f11;
-                    color: #ffffff;
-                    font-family: 'Cairo', 'Tajawal', sans-serif;
-                    text-align: center;
-                    padding: 20px;
-                    box-sizing: border-box;
-                    direction: rtl;
-                ">
-                    <div style="
-                        background: #18181c;
-                        padding: 40px;
-                        border-radius: 16px;
-                        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-                        max-width: 500px;
-                        width: 100%;
-                        border: 1px solid rgba(212, 175, 55, 0.3);
-                    ">
-                        <div style="font-size: 50px; margin-bottom: 20px;">⚠️</div>
-                        <h1 style="font-size: 1.8rem; color: #e74c3c; margin-bottom: 15px; font-weight: bold;">الموقع متوقف حالياً</h1>
-                        <p style="font-size: 1.05rem; line-height: 1.7; color: #a0a0a0; margin-bottom: 25px;">
-                            عذراً، انتهت فترة تشغيل الخدمة لهذا الموقع. يرجى التواصل مع المطور لتجديد الاشتراك وإعادة التفعيل.
-                        </p>
-                        <div style="
-                            font-size: 0.85rem; 
-                            color: #d4af37; 
-                            border-top: 1px solid rgba(212, 175, 55, 0.2); 
-                            padding-top: 15px;
-                        ">
-                            مطعم جنين - نظام إدارة الخدمات
-                        </div>
+                <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; background:#0f0f11; color:#fff; text-align:center; padding:20px;">
+                    <div style="background:#18181c; padding:40px; border-radius:16px; border:1px solid rgba(212,175,55,0.3); max-width:500px;">
+                        <div style="font-size:50px; margin-bottom:20px;">⚠️</div>
+                        <h1 style="color:#e74c3c; margin-bottom:15px;">الموقع متوقف حالياً</h1>
+                        <p style="color:#a0a0a0; margin-bottom:25px;">عذراً، انتهت فترة تشغيل الخدمة لهذا الموقع. يرجى التواصل مع المطور لتجديد الاشتراك.</p>
                     </div>
                 </div>
             `;
@@ -461,12 +570,12 @@
         }
 
         let defaultMenu = [
-            { id: 1, name: "مشاوي مشكلة فاخرة", price: 75, cat: "meals", spice: true, img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80" },
-            { id: 2, name: "وجبة شاورما عربي", price: 45, cat: "meals", spice: true, img: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=600&q=80" },
-            { id: 3, name: "عصير برتقال طازج", price: 12, cat: "cold-drinks", spice: false, img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80" },
-            { id: 4, name: "مشروب غازي بارد", price: 5, cat: "cold-drinks", spice: false, img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80" },
-            { id: 5, name: "قهوة تركية فاخرة", price: 8, cat: "hot-drinks", spice: false, img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" },
-            { id: 6, name: "شاي بالنعناع الأخضر", price: 5, cat: "hot-drinks", spice: false, img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80" }
+            { id: 1, name: "مشاوي مشكلة فاخرة", nameEn: "Premium Mixed Grill", price: 75, cat: "meals", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80" },
+            { id: 2, name: "وجبة شاورما عربي", nameEn: "Arabic Shawarma Meal", price: 45, cat: "meals", img: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=600&q=80" },
+            { id: 3, name: "عصير برتقال طازج", nameEn: "Fresh Orange Juice", price: 12, cat: "cold-drinks", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80" },
+            { id: 4, name: "مشروب غازي بارد", nameEn: "Cold Soft Drink", price: 5, cat: "cold-drinks", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80" },
+            { id: 5, name: "قهوة تركية فاخرة", nameEn: "Turkish Coffee", price: 8, cat: "hot-drinks", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" },
+            { id: 6, name: "شاي بالنعناع الأخضر", nameEn: "Green Mint Tea", price: 5, cat: "hot-drinks", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80" }
         ];
 
         let menu = JSON.parse(localStorage.getItem('jenin_menu')) || defaultMenu;
@@ -475,27 +584,21 @@
         function renderMenu() {
             const container = document.getElementById('menuGrid');
             let html = "";
+            const t = translations[currentLang];
 
             menu.forEach(item => {
-                const safeName = sanitizeHTML(item.name);
+                const displayName = currentLang === 'en' ? (item.nameEn || item.name) : item.name;
+                const safeName = sanitizeHTML(displayName);
                 html += `
                 <div class="food-card glass-card menu-item" data-category="${item.cat}">
-                    <button class="admin-delete-btn" style="display:${isAdminLoggedIn ? 'flex' : 'none'};" onclick="deleteMenuItemOnPage(${item.id})" title="حذف الصنف"><i class="fa-solid fa-trash"></i></button>
+                    <button class="admin-delete-btn" style="display:${isAdminLoggedIn ? 'flex' : 'none'};" onclick="deleteMenuItemOnPage(${item.id})" title="Delete"><i class="fa-solid fa-trash"></i></button>
                     <div class="food-img-box"><img src="${item.img}" class="food-img" alt="${safeName}"></div>
                     <div class="food-content">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
                             <h3 style="font-size:1.1rem; font-weight:bold;">${safeName}</h3>
                             <span style="color:var(--gold); font-weight:bold;">${item.price} ₪</span>
                         </div>
-                        ${item.spice ? `
-                        <div style="margin:10px 0; font-size:0.85rem;">
-                            <label>النكهة:</label>
-                            <select id="spice-${item.id}" style="background:#000; color:#fff; border:1px solid var(--glass-border); padding:3px; border-radius:5px;">
-                                <option value="عادي 🌿">عادي 🌿</option>
-                                <option value="حار 🌶️">حار 🌶️</option>
-                            </select>
-                        </div>` : ''}
-                        <button class="btn btn-gold btn-sm" style="margin-top:auto;" onclick="addToCart(${item.id})"><i class="fa-solid fa-cart-plus"></i> إضافة للسلة</button>
+                        <button class="btn btn-gold btn-sm" style="margin-top:15px;" onclick="addToCart(${item.id})">${t.addBtnText}</button>
                     </div>
                 </div>
                 `;
@@ -514,8 +617,7 @@
             }
 
             const loginBtn = document.getElementById('loginBtn');
-            const originalText = loginBtn.textContent;
-            loginBtn.textContent = "جاري التحقق من الترخيص...";
+            loginBtn.textContent = "جاري التحقق...";
             loginBtn.disabled = true;
 
             try {
@@ -532,13 +634,12 @@
                     updateAdminStatsUI();
                     renderMenu();
                 } else {
-                    alert("⚠️ انتهت فترة الاشتراك السنوي للوحة التحكم! يرجى التواصل مع المطور للتجديد والتفعيل.");
+                    alert("⚠️ انتهت فترة الاشتراك السنوي للوحة التحكم!");
                 }
             } catch (error) {
-                console.error("License Check Error:", error);
-                alert("تعذر التحقق من ترخيص اللوحة. تأكد من اتصالك بالإنترنت.");
+                alert("تعذر التحقق من ترخيص اللوحة.");
             } finally {
-                loginBtn.textContent = originalText;
+                loginBtn.textContent = "دخول اللوحة";
                 loginBtn.disabled = false;
             }
         }
@@ -547,19 +648,11 @@
             const newPass = document.getElementById('newPassInput').value.trim();
             const confirmPass = document.getElementById('confirmPassInput').value.trim();
 
-            if (!newPass || newPass.length < 4) {
-                alert("يرجى إدخال كلمة مرور تتكون من 4 خانات أو أكثر!");
-                return;
-            }
-
-            if (newPass !== confirmPass) {
-                alert("كلمتا المرور غير متطابقتين!");
-                return;
-            }
+            if (!newPass || newPass.length < 4) { alert("كلمة المرور قصيرة!"); return; }
+            if (newPass !== confirmPass) { alert("كلمتا المرور غير متطابقتين!"); return; }
 
             localStorage.setItem('jenin_admin_pass', newPass);
             alert("تم تغيير كلمة المرور بنجاح!");
-
             document.getElementById('newPassInput').value = '';
             document.getElementById('confirmPassInput').value = '';
         }
@@ -568,13 +661,7 @@
             const item = menu.find(i => i.id === itemId);
             if (!item) return;
 
-            let selectedSpice = "";
-            if(item.spice) {
-                const select = document.getElementById(`spice-${itemId}`);
-                selectedSpice = select ? select.value : "";
-            }
-
-            cart.push({ ...item, selectedSpice });
+            cart.push(item);
             updateCartUI();
             openCartModal();
         }
@@ -583,9 +670,10 @@
             document.getElementById('cartCount').textContent = cart.length;
             const container = document.getElementById('cartItemsContainer');
             const totalElem = document.getElementById('cartTotal');
+            const t = translations[currentLang];
 
             if (cart.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:15px;">لم تقم بإضافة أي أصناف بعد..</p>';
+                container.innerHTML = `<p style="color:var(--text-muted); text-align:center; padding:15px;">${t.emptyCartText}</p>`;
                 totalElem.textContent = "0 ₪";
                 return;
             }
@@ -595,16 +683,14 @@
 
             cart.forEach((item, index) => {
                 total += item.price;
-                const safeName = sanitizeHTML(item.name);
+                const displayName = currentLang === 'en' ? (item.nameEn || item.name) : item.name;
+                const safeName = sanitizeHTML(displayName);
                 html += `
                 <div class="cart-item-row">
-                    <div>
-                        <div style="font-weight:bold; font-size:1rem; color:var(--white);">📌 ${safeName}</div>
-                        ${item.selectedSpice ? `<div style="font-size:0.8rem; color:var(--gold); margin-top:2px;">• الملاحظة: ${sanitizeHTML(item.selectedSpice)}</div>` : ''}
-                    </div>
+                    <div style="font-weight:bold; color:var(--white);">📌 ${safeName}</div>
                     <div style="display:flex; align-items:center; gap:15px;">
-                        <span style="color:var(--gold); font-weight:bold; font-size:1rem;">${item.price} ₪</span>
-                        <i class="fa-solid fa-trash-can" style="color:#e74c3c; cursor:pointer; font-size:1.1rem;" onclick="removeFromCart(${index})" title="إزالة"></i>
+                        <span style="color:var(--gold); font-weight:bold;">${item.price} ₪</span>
+                        <i class="fa-solid fa-trash-can" style="color:#e74c3c; cursor:pointer;" onclick="removeFromCart(${index})"></i>
                     </div>
                 </div>
                 `;
@@ -619,7 +705,6 @@
             updateCartUI();
         }
 
-        // ==================== إرسال الطلبيات وتسجيل الإحصائيات ====================
         function submitOrder(method) {
             const name = sanitizeHTML(document.getElementById('custName').value.trim());
             const prefix = document.getElementById('custPhonePrefix').value;
@@ -628,41 +713,25 @@
             const orderType = sanitizeHTML(document.getElementById('orderType').value);
 
             if (!name || !phoneNum || !address || cart.length === 0) {
-                alert("يرجى ملء كافة البيانات المطلوبة وإضافة أصناف للسلة أولاً!");
+                alert(currentLang === 'ar' ? "يرجى تعبئة كافة البيانات المطلوب!" : "Please complete all required fields!");
                 return;
             }
 
-            // فحص صحة الاسم (كلمتين على الأقل)
-            const nameWords = name.split(/\s+/).filter(word => word.length > 0);
-            if (nameWords.length < 2) {
-                alert("يرجى إدخال الاسم كاملاً (الاسم الثنائي على الأقل)!");
-                document.getElementById('custName').focus();
-                return;
-            }
-
-            // فحص أرقام الهاتف (يجب أن تتكون من 7 أرقام فقط)
-            const cleanPhoneNum = phoneNum.replace(/\D/g, '');
-            if (cleanPhoneNum.length !== 7) {
-                alert("يرجى أدخل بقية رقم الهاتف والمكون من 7 أرقام بالضبط!");
-                document.getElementById('custPhoneNum').focus();
-                return;
-            }
-
-            const fullPhone = prefix + cleanPhoneNum;
+            const fullPhone = prefix + phoneNum;
             let total = cart.reduce((sum, item) => sum + item.price, 0);
 
-            // تحديث الإحصائيات (العدد والمبلغ)
             orderStats.count += 1;
             orderStats.totalAmount += total;
             localStorage.setItem('jenin_order_stats', JSON.stringify(orderStats));
 
-            let orderText = `*طلب جديد - مطعم جنين* 🛵%0A---------------------------------%0A👤 *الاسم:* ${encodeURIComponent(name)}%0A📞 *الهاتف:* ${encodeURIComponent(fullPhone)}%0A📍 *العنوان:* ${encodeURIComponent(address)}%0A📦 *نوع الطلب:* ${encodeURIComponent(orderType)}%0A---------------------------------%0A📋 *الأصناف:*%0A`;
+            let orderText = `*Order / طلب جديد - Jenin Restaurant*%0A---------------------------------%0A👤 *Name / الاسم:* ${encodeURIComponent(name)}%0A📞 *Phone / الهاتف:* ${encodeURIComponent(fullPhone)}%0A📍 *Address / العنوان:* ${encodeURIComponent(address)}%0A📦 *Type / النوع:* ${encodeURIComponent(orderType)}%0A---------------------------------%0A📋 *Items / الطلبات:*%0A`;
             
             cart.forEach((item, i) => {
-                orderText += `${i+1}. ${encodeURIComponent(item.name)} ${item.selectedSpice ? `(${encodeURIComponent(item.selectedSpice)})` : ''} - ${item.price}₪%0A`;
+                const nameStr = currentLang === 'en' ? (item.nameEn || item.name) : item.name;
+                orderText += `${i+1}. ${encodeURIComponent(nameStr)} - ${item.price}₪%0A`;
             });
 
-            orderText += `---------------------------------%0A💰 *المجموع الإجمالي:* ${total} ₪`;
+            orderText += `---------------------------------%0A💰 *Total / المجموع:* ${total} ₪`;
 
             if (method === 'whatsapp') {
                 window.open(`https://wa.me/${RESTAURANT_PHONE}?text=${orderText}`, '_blank');
@@ -676,7 +745,6 @@
             closeCartModal();
         }
 
-        // ==================== حجز الطاولات ====================
         function sendTableReservation(method) {
             const name = sanitizeHTML(document.getElementById('tableName').value.trim());
             const prefix = document.getElementById('tablePhonePrefix').value;
@@ -686,29 +754,12 @@
             const time = sanitizeHTML(document.getElementById('tableTime').value);
 
             if (!name || !phoneNum || !date || !time) {
-                alert("يرجى تعبئة كافة بيانات الحجز وتحديد التاريخ والوقت!");
+                alert(currentLang === 'ar' ? "يرجى تعبئة جميع الحقول!" : "Please fill out all fields!");
                 return;
             }
 
-            // فحص صحة الاسم (كلمتين على الأقل)
-            const nameWords = name.split(/\s+/).filter(word => word.length > 0);
-            if (nameWords.length < 2) {
-                alert("يرجى إدخال الاسم كاملاً (الاسم الثنائي على الأقل)!");
-                document.getElementById('tableName').focus();
-                return;
-            }
-
-            // فحص أرقام الهاتف (يجب أن تتكون من 7 أرقام فقط)
-            const cleanPhoneNum = phoneNum.replace(/\D/g, '');
-            if (cleanPhoneNum.length !== 7) {
-                alert("يرجى أدخل بقية رقم الهاتف والمكون من 7 أرقام بالضبط!");
-                document.getElementById('tablePhoneNum').focus();
-                return;
-            }
-
-            const fullPhone = prefix + cleanPhoneNum;
-
-            let resText = `*حجز طاولة جديد - مطعم جنين* 🍽️%0A---------------------------------%0A👤 *الاسم:* ${encodeURIComponent(name)}%0A📞 *الهاتف:* ${encodeURIComponent(fullPhone)}%0A👥 *العدد:* ${encodeURIComponent(guests)}%0A📅 *التاريخ:* ${encodeURIComponent(date)}%0A⏰ *الموعد:* ${encodeURIComponent(time)}%0A`;
+            const fullPhone = prefix + phoneNum;
+            let resText = `*Table Reservation / حجز طاولة*%0A---------------------------------%0A👤 *Name / الاسم:* ${encodeURIComponent(name)}%0A📞 *Phone / الهاتف:* ${encodeURIComponent(fullPhone)}%0A👥 *Guests / العدد:* ${encodeURIComponent(guests)}%0A📅 *Date / التاريخ:* ${encodeURIComponent(date)}%0A⏰ *Time / الوقت:* ${encodeURIComponent(time)}%0A`;
 
             if (method === 'whatsapp') {
                 window.open(`https://wa.me/${RESTAURANT_PHONE}?text=${resText}`, '_blank');
@@ -718,21 +769,16 @@
             }
         }
 
-        let clickCount = 0;
-        let clickTimer;
+        let clickCount = 0, clickTimer;
         function handleLogoClick() {
             clickCount++;
             clearTimeout(clickTimer);
-            if (clickCount >= 3) {
-                openAdminModal();
-                clickCount = 0;
-            } else {
-                clickTimer = setTimeout(() => { clickCount = 0; }, 1000);
-            }
+            if (clickCount >= 3) { openAdminModal(); clickCount = 0; }
+            else { clickTimer = setTimeout(() => { clickCount = 0; }, 1000); }
         }
 
         function deleteMenuItemOnPage(id) {
-            if (confirm("هل أنت تأكد من حذف هذا الصنف من المنيو؟")) {
+            if (confirm("هل أنت تأكد من حذف الصنف؟")) {
                 menu = menu.filter(item => item.id !== id);
                 localStorage.setItem('jenin_menu', JSON.stringify(menu));
                 renderMenu();
@@ -741,48 +787,38 @@
 
         function addNewItem() {
             const name = sanitizeHTML(document.getElementById('newItemName').value.trim());
+            const nameEn = sanitizeHTML(document.getElementById('newItemNameEn').value.trim()) || name;
             const price = parseFloat(document.getElementById('newItemPrice').value);
             const cat = sanitizeHTML(document.getElementById('newItemCat').value);
-            const spice = document.getElementById('newItemSpice').value === 'yes';
             const fileInput = document.getElementById('newItemFile');
 
             if (!name || isNaN(price) || price <= 0) {
-                alert("يرجى كتابة اسم الصنف وسعره بشكل صحيح!");
+                alert("يرجى كتابة الاسم والسعر بوضوح!");
                 return;
             }
 
             let defaultImg = 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80';
 
             if (fileInput.files && fileInput.files[0]) {
-                const file = fileInput.files[0];
-                const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-                if (!allowedTypes.includes(file.type)) {
-                    alert("نوع الملف غير مسموح! يرجى اختيار صورة بصيغة (JPG, PNG, WEBP) فقط.");
-                    return;
-                }
-                if (file.size > 2 * 1024 * 1024) {
-                    alert("حجم الصورة كبير جداً! يرجى اختيار صورة أقل من 2 ميجابايت.");
-                    return;
-                }
-
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    saveItemToMenu(name, price, cat, spice, e.target.result);
+                    saveItemToMenu(name, nameEn, price, cat, e.target.result);
                 };
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(fileInput.files[0]);
             } else {
-                saveItemToMenu(name, price, cat, spice, defaultImg);
+                saveItemToMenu(name, nameEn, price, cat, defaultImg);
             }
         }
 
-        function saveItemToMenu(name, price, cat, spice, imgUrl) {
-            const newItem = { id: Date.now(), name, price, cat, spice, img: imgUrl };
+        function saveItemToMenu(name, nameEn, price, cat, imgUrl) {
+            const newItem = { id: Date.now(), name, nameEn, price, cat, img: imgUrl };
             menu.push(newItem);
             localStorage.setItem('jenin_menu', JSON.stringify(menu));
             renderMenu();
 
             alert("تمت إضافة الصنف بنجاح!");
             document.getElementById('newItemName').value = '';
+            document.getElementById('newItemNameEn').value = '';
             document.getElementById('newItemPrice').value = '';
             document.getElementById('newItemFile').value = '';
         }
@@ -801,10 +837,9 @@
             });
         }
 
-        // تشغيل الفحص الأولي للترخيص وعرض المنيو
         window.addEventListener('DOMContentLoaded', () => {
             checkWebsiteStatus();
-            renderMenu();
+            applyLanguage();
         });
     </script>
 </body>
